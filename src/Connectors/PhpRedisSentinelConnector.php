@@ -62,7 +62,7 @@ class PhpRedisSentinelConnector extends PhpRedisConnector
     /**
      * Check whether master is valid or not.
      */
-    protected function isValidMaster(mixed $master): bool
+    protected function isValidMaster($master): bool
     {
         return is_array($master) && isset($master['ip']) && isset($master['port']);
     }
