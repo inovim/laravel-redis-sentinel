@@ -8,7 +8,6 @@ namespace Namoshek\Redis\Sentinel\Connections;
 
 use Closure;
 use Illuminate\Redis\Connections\PhpRedisConnection;
-use Illuminate\Support\Str;
 use Redis;
 use RedisException;
 
@@ -39,7 +38,7 @@ class PhpRedisSentinelConnection extends PhpRedisConnection
      *
      * @throws RedisException
      */
-    public function scan($cursor, $options = []): mixed
+    public function scan($cursor, $options = [])
     {
         try {
             return parent::scan($cursor, $options);
@@ -55,7 +54,7 @@ class PhpRedisSentinelConnection extends PhpRedisConnection
      *
      * @throws RedisException
      */
-    public function zscan($key, $cursor, $options = []): mixed
+    public function zscan($key, $cursor, $options = [])
     {
         try {
             return parent::zscan($key, $cursor, $options);
@@ -71,7 +70,7 @@ class PhpRedisSentinelConnection extends PhpRedisConnection
      *
      * @throws RedisException
      */
-    public function hscan($key, $cursor, $options = []): mixed
+    public function hscan($key, $cursor, $options = [])
     {
         try {
             return parent::hscan($key, $cursor, $options);
@@ -87,7 +86,7 @@ class PhpRedisSentinelConnection extends PhpRedisConnection
      *
      * @throws RedisException
      */
-    public function sscan($key, $cursor, $options = []): mixed
+    public function sscan($key, $cursor, $options = [])
     {
         try {
             return parent::sscan($key, $cursor, $options);
@@ -103,7 +102,7 @@ class PhpRedisSentinelConnection extends PhpRedisConnection
      *
      * @throws RedisException
      */
-    public function pipeline(?callable $callback = null): Redis|array
+    public function pipeline(?callable $callback = null)
     {
         try {
             return parent::pipeline($callback);
@@ -119,7 +118,7 @@ class PhpRedisSentinelConnection extends PhpRedisConnection
      *
      * @throws RedisException
      */
-    public function transaction(?callable $callback = null): Redis|array
+    public function transaction(?callable $callback = null)
     {
         try {
             return parent::transaction($callback);
@@ -135,7 +134,7 @@ class PhpRedisSentinelConnection extends PhpRedisConnection
      *
      * @throws RedisException
      */
-    public function evalsha($script, $numkeys, ...$arguments): mixed
+    public function evalsha($script, $numkeys, ...$arguments)
     {
         try {
             return parent::evalsha($script, $numkeys, $arguments);
@@ -199,7 +198,7 @@ class PhpRedisSentinelConnection extends PhpRedisConnection
      *
      * @throws RedisException
      */
-    public function command($method, array $parameters = []): mixed
+    public function command($method, array $parameters = [])
     {
         try {
             return parent::command($method, $parameters);
@@ -215,7 +214,7 @@ class PhpRedisSentinelConnection extends PhpRedisConnection
      *
      * @throws RedisException
      */
-    public function __call($method, $parameters): mixed
+    public function __call($method, $parameters)
     {
         try {
             return parent::__call(strtolower($method), $parameters);
@@ -237,7 +236,7 @@ class PhpRedisSentinelConnection extends PhpRedisConnection
 
         // Because we also match only partial exception messages, we cannot use in_array() at this point.
         foreach (self::ERROR_MESSAGES_INDICATING_UNAVAILABILITY as $errorMessage) {
-            if (str_contains($exceptionMessage, $errorMessage)) {
+            if (\Illuminate\Support\Str::contains($exceptionMessage, $errorMessage)) {
                 // Here we reconnect through Redis Sentinel if we lost connection to the server or if another unavailability occurred.
                 // We may actually reconnect to the same, broken server. But after a failover occured, we should be ok.
                 // It may take a moment until the Sentinel returns the new master, so this may be triggered multiple times.

@@ -20,7 +20,7 @@ jobs:
         include:
           - operating-system: 'ubuntu-latest'
             php-version: '8.4'
-            run-sonarqube-analysis: true
+            run-sonarqube-analysis: false
 
     services:
       redis:
